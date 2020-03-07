@@ -23,9 +23,9 @@ SELECT count(*) FROM likes WHERE (SELECT birthday FROM profiles WHERE likes.user
 
 
 --      Определить кто больше поставил лайков (всего) - мужчины или женщины?
---		TODO сравнить.
 
- SELECT
-        (SELECT count(*) FROM likes WHERE (SELECT gender FROM profiles WHERE likes.user_id = user_id) = 'm') as male,
-        (SELECT count(*) FROM likes WHERE (SELECT gender FROM profiles WHERE likes.user_id = user_id) = 'f') as female;
-
+SELECT 
+	(SELECT count(*) AS gender FROM likes WHERE (SELECT gender FROM profiles WHERE likes.user_id = user_id) = 'm') AS gender 
+	union 
+	(SELECT count(*) FROM likes WHERE (SELECT gender FROM profiles WHERE likes.user_id = user_id) = 'f') 
+	ORDER BY gender DESC LIMIT 1;
