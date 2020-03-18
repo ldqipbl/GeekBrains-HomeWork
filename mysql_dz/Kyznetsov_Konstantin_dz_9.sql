@@ -78,7 +78,7 @@ COMMIT;
         Создайте представление, которое выводит название name товарной позиции из таблицы products и соответствующее название каталога name из таблицы catalogs.
 */
 
-CREATE VIEW cat AS SELECT name FROM products WHERE id IN (SELECT id FROM catalogs);
+CREATE VIEW cat AS SELECT products.name AS prod, catalogs.name AS cata FROM products JOIN catalogs ON products.catalog_id = catalogs.id;
 
 
 /*
@@ -91,24 +91,26 @@ CREATE VIEW cat AS SELECT name FROM products WHERE id IN (SELECT id FROM catalog
 
 DELIMITER //
 
-CREATE FUNCTION hello (value INT)
-RETURNS VARCHAR(255)
+CREATE FUNCTION hello(value INT)
+RETURNS VARCHAR(100) NOT DETERMINISTIC
 BEGIN
-	SET @time = value
+        DECLARE hour INT;
 
-	IF @time <= 6 THEN
-  		{RETURN SELECT 'Доброй ночи'};
-	ELSEIF @time <= 12 THEN
-		{RETURN SELECT 'Доброй утро'};
-	ELSEIF @time <= 18 THEN
-                {RETURN SELECT 'Доброй день'};
-	ELSE
-                {RETURN SELECT 'Добрый вечер'};
-	END IF
+        SET hour = value;
+
+        CASE 
+                WHEN hour <= 5 THEN
+                        RETURN "Goodnight";
+                WHEN hour <= 11  THEN
+                        RETURN "good morning";
+                WHEN hour <= 17  THEN
+                        RETURN "good afternoon";
+                WHEN hour <= 23 THEN
+                        RETURN "good evening";
+        END CASE;
 END//
 
 DELIMITER ;
-
 
 /*
         В таблице products есть два текстовых поля: name с названием товара и description с его описанием. 
@@ -118,8 +120,16 @@ DELIMITER ;
         При попытке присвоить полям NULL-значение необходимо отменить операцию.
  */
 
+DELIMITER //
 
+DROP TRIGGER IF EXISTS products_name_not_null;
+CREATE TRIGGER products_name_not_null BEFORE INSERT ON products
+FOR EACH ROW
+BEGIN
+  	IF NEW.name IS NULL AND NEW.desription IS NULL THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'name or description = NULL';
+	END IF;
 
+END//
 
-
-
+DELIMITER ;
