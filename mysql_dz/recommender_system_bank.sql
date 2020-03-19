@@ -69,8 +69,9 @@ INSERT INTO products VALUES
         (0, 'investments', 'EUR'),
         (0, 'investments', 'bonds'),
         (0, 'investments', 'stocks'),
-	(0, 'card', 'credit_debit'),
-        (0, 'credit', 'Mortgage'),
+	(0, 'card', 'debit'),
+	(0, 'card', 'credit'),
+        (0, 'credit', 'mortgage'),
 	(0, 'credit', 'consumer_credit'),
 	(0, 'insurance', 'life'),
 	(0, 'insurance', 'property');
@@ -83,7 +84,8 @@ CREATE TABLE investments(
 	user_id INT,
 	products_id INT,
 	ue INT,
-	date_of_creation DATE);
+	date_of_creation DATE,
+	INDEX (id));
 
 INSERT INTO investments VALUES
 	(0, 1, 3, 5000, '2000-05-24'),
@@ -98,17 +100,16 @@ CREATE TABLE card(
         id SERIAL PRIMARY KEY,
         user_id INT,
         products_id INT,
-	debit_ue INT,
-	credit_ue INT,
-	annual_percentage INT,
-        date_of_creation DATE);
+	ue INT,
+        date_of_creation DATE,
+	INDEX (id));
 
 INSERT INTO card VALUES
-	(0, 2, 6, 20000, 100000, 2, '2000-01-21'),
-	(0, 2, 6, 20000, 0, 2, '2005-02-12'),
-	(0, 3, 6, 0, 100000, 2, '2010-03-23'),
-	(0, 3, 6, 20000, 100000, 2, '2015-04-04'),
-	(0, 3, 6, 20000, 100000, 2, '2020-05-25');
+	(0, 2, 6, 20000, '2000-01-21'),
+	(0, 2, 7, 100000, '2000-01-21'),
+	(0, 3, 7, 100000, '2010-03-23'),
+	(0, 3, 7, 100000, '2015-04-04'),
+	(0, 3, 6, 20000, '2020-05-25');
 
 
 --Таблица №5
@@ -120,14 +121,15 @@ CREATE TABLE credit(
 	ue INT,
 	annual_percentage INT,
 	date_of_creation DATE,
-	date_of_end DATE);
+	date_of_end DATE,
+	INDEX (id));
 
 INSERT INTO credit VALUES
-	(0, 1, 7, 100000, 5, '2015-04-04', '2017-04-04'),
-	(0, 1, 8, 100000, 8, '2017-04-04', '2019-04-04'),
-	(0, 2, 8, 100000, 8, '2015-04-04', '2017-04-04'),
-	(0, 3, 7, 100000, 5, '2015-04-04', '2017-04-04'),
-	(0, 5, 7, 100000, 5, '2015-04-04', '2017-04-04');
+	(0, 1, 8, 100000, 5, '2015-04-04', '2017-04-04'),
+	(0, 1, 9, 100000, 8, '2017-04-04', '2019-04-04'),
+	(0, 2, 9, 100000, 8, '2015-04-04', '2017-04-04'),
+	(0, 3, 8, 100000, 5, '2015-04-04', '2017-04-04'),
+	(0, 5, 8, 100000, 5, '2015-04-04', '2017-04-04');
 
 
 --Таблица №6
@@ -137,14 +139,15 @@ CREATE TABLE insurance(
 	user_id INT,
         products_id INT,
 	ue INT,
-        date_of_creation DATE);
+        date_of_creation DATE,
+	INDEX (id));
 
 INSERT INTO insurance VALUES
-	(0, 4, 9, 5000, '2015-04-04'),
 	(0, 4, 10, 5000, '2015-04-04'),
-	(0, 5, 9, 5000, '2015-04-04'),
+	(0, 4, 11, 5000, '2015-04-04'),
 	(0, 5, 10, 5000, '2015-04-04'),
-	(0, 5, 10, 5000, '2015-04-04');
+	(0, 5, 11, 5000, '2015-04-04'),
+	(0, 5, 11, 5000, '2015-04-04');
 
 
 --Таблица №7
@@ -182,36 +185,103 @@ INSERT INTO discounts_now VALUES
 
 
 --Таблица №9
-DROP TABLE IF EXISTS tbl_9;                     --Таблица клиентов по использованию продуктов
-CREATE TABLE tbl_9(
-        id SERIAL PRIMARY KEY,
-        user_id INT,
-        investments INT,
-	card INT,
-	credit INT,
-	insurance INT);
+DROP TABLE IF EXISTS call_agent;               --Колл центр
+CREATE TABLE call_center(
+	id SERIAL PRIMARY KEY,
+        firsname VARCHAR(100),
+        lastname VARCHAR(100),
+        telephon VARCHAR(100));
 
-INSERT INTO tbl_9 VALUES
-	(0, 1, 1, 0, 1, 0),
-	(0, 2, 0, 1, 1, 0),
-	(0, 3, 1, 1, 1, 0),
-	(0, 4, 0, 0, 0, 1),
-	(0, 5, 1, 0, 1, 1);
+INSERT INTO call_center VALUES
+        (0, 'Alex_1', 'Black', '89996660000'),
+        (0, 'Alex_2', 'Black', '89996660000'),
+        (0, 'Alex_3', 'Black', '89996660000'),
+        (0, 'Alex_4', 'Black', '89996660000'),
+        (0, 'Alex_5', 'Black', '89996660000');
 
 
 --Таблица №10
-DROP TABLE IF EXISTS tbl_10;			--Рекомендация продуктов клиенту на основе его действий.
-CREATE TABLE tbl_10(
-	id SERIAL PRIMARY KEY, 
-	user_id INT, 
-	investments INT,
-        card INT,
-        credit INT,
-        insurance INT);
+DROP TABLE IF EXISTS tech_support;              --Тех поддержка
+CREATE TABLE tech_support(
+	id SERIAL PRIMARY KEY,
+        user_id INT,
+	call_agent_id INT,
+	question_user TEXT,
+	enswer_agent TEXT,
+	INDEX (id));
 
-INSERT INTO tbl_10 VALUES
-	(0, 1, 0, 1, 0, 1),
-        (0, 2, 1, 0, 0, 1),
-        (0, 3, 0, 0, 0, 1),
-        (0, 4, 1, 1, 1, 0),
-        (0, 5, 0, 1, 0, 0);
+INSERT INTO tech_support VALUES
+        (0, 1, 2, 'error = 2342423', 'text support'),
+	(0, 5, 1, 'error = 2342423', 'text support'),
+	(0, 3, 3, 'error = 2342423', 'text support'),
+	(0, 1, 1, 'error = 2342423', 'text support'),
+	(0, 4, 4, 'error = 2342423', 'text support');
+
+
+--Представление №1, JOIN
+DROP VIEW IF EXISTS client_get_products;
+CREATE VIEW client_get_products AS SELECT
+        users.id AS id,
+        investments.products_id AS invest_prod,
+        card.products_id AS card_prod,
+        credit.products_id AS credit_prod,
+        insurance.products_id AS insurance_prod
+FROM users       
+LEFT JOIN investments ON investments.user_id = users.id
+LEFT JOIN card ON card.user_id = users.id
+LEFT JOIN credit ON credit.user_id = users.id
+LEFT JOIN insurance ON insurance.user_id = users.id
+ORDER BY id, invest_prod;
+
+SELECT * FROM client_get_products;
+
+--Представление №2, групперовка
+DROP VIEW IF EXISTS count_client_get_products;
+CREATE VIEW count_client_get_products AS SELECT
+        id,
+        count(invest_prod) AS invest_prod,                                                       
+        count(card_prod) AS card_prod, 
+        count(credit_prod) AS credit_prod, 
+        count(insurance_prod) AS insurance_prod
+FROM client_get_products GROUP BY id ORDER BY id;
+
+SELECT * FROM count_client_get_products;
+
+
+--Процедура, вложенные таблицы
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS mvp;
+CREATE PROCEDURE mvp (value INT)
+BEGIN
+        IF value > (SELECT MAX(id) FROM users) THEN
+                SELECT "count user" AS error, (SELECT MAX(id) FROM users) AS last_user_id;
+        END IF;
+
+        IF (SELECT invest_prod FROM count_client_get_products WHERE id = value) > 3 THEN
+                SELECT value AS users, "investments > 3" AS recomend;
+        ELSEIF (SELECT invest_prod FROM count_client_get_products WHERE id = value) = 0 THEN
+                SELECT value AS users, "investments = 0" AS recomend;
+        END IF;
+
+        IF (SELECT card_prod FROM count_client_get_products WHERE id = value) > 3 THEN
+                SELECT value AS users, "card > 3" AS recomend;
+        ELSEIF (SELECT card_prod FROM count_client_get_products WHERE id = value) = 0 THEN
+                SELECT value AS users, "card = 0" AS recomend;
+        END IF;
+
+        IF (SELECT credit_prod FROM count_client_get_products WHERE id = value) > 3 THEN
+                SELECT value AS users, "credit > 3" AS recomend;
+        ELSEIF (SELECT credit_prod FROM count_client_get_products WHERE id = value) = 0 THEN
+                SELECT value AS users, "credit = 0" AS recomend;
+        END IF;
+
+        IF (SELECT insurance_prod FROM count_client_get_products WHERE id = value) > 3 THEN
+                SELECT value AS users, "insurance > 3" AS recomend;
+        ELSEIF (SELECT insurance_prod FROM count_client_get_products WHERE id = value) = 0 THEN
+                SELECT value AS users, "insurance = 0" AS recomend;
+        END IF;
+
+END //
+
+DELIMITER ;
