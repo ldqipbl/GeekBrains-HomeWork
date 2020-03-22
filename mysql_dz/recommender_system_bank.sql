@@ -38,8 +38,7 @@ CREATE DATABASE Discount_MVP;
 USE Discount_MVP;
 
 
---Таблица №1
-DROP TABLE IF EXISTS users;			--Клиенты
+--Таблица №1 Клиенты
 CREATE TABLE users(
 	id SERIAL PRIMARY KEY, 
 	firsname VARCHAR(100), 
@@ -56,8 +55,7 @@ INSERT INTO users VALUES
 	(0, 'Leo_5', 'Simson', '89996667878', '2000-04-12', '2000-04-12');
 
 
---Таблица №2	
-DROP TABLE IF EXISTS products;			--Продукты банка
+--Таблица №2 Продукты банка
 CREATE TABLE products(
         id SERIAL PRIMARY KEY,		
         group_name VARCHAR(255),
@@ -77,15 +75,15 @@ INSERT INTO products VALUES
 	(0, 'insurance', 'property');
 
 
---Таблица №3
-DROP TABLE IF EXISTS investments;               --Инвестиции
+--Таблица №3 Инвестиции
 CREATE TABLE investments(
         id SERIAL PRIMARY KEY,
-	user_id INT,
-	products_id INT,
+	user_id BIGINT UNSIGNED,
+	products_id BIGINT UNSIGNED,
 	ue INT,
 	date_of_creation DATE,
-	INDEX (id));
+	FOREIGN KEY (user_id) REFERENCES users(id),
+        FOREIGN KEY (products_id) REFERENCES products(id));
 
 INSERT INTO investments VALUES
 	(0, 1, 3, 5000, '2000-05-24'),
@@ -94,15 +92,15 @@ INSERT INTO investments VALUES
 	(0, 5, 5, 10, '2020-09-24');
 
 
---Таблица №4
-DROP TABLE IF EXISTS card;                      --Карты(дебетовый, кредитные)
+--Таблица №4 Карты(дебетовый, кредитные)
 CREATE TABLE card(
         id SERIAL PRIMARY KEY,
-        user_id INT,
-        products_id INT,
+        user_id BIGINT UNSIGNED,
+        products_id BIGINT UNSIGNED,
 	ue INT,
         date_of_creation DATE,
-	INDEX (id));
+	FOREIGN KEY (user_id) REFERENCES users(id),
+	FOREIGN KEY (products_id) REFERENCES products(id));
 
 INSERT INTO card VALUES
 	(0, 2, 6, 20000, '2000-01-21'),
@@ -112,17 +110,17 @@ INSERT INTO card VALUES
 	(0, 3, 6, 20000, '2020-05-25');
 
 
---Таблица №5
-DROP TABLE IF EXISTS credit;                    --Кредиты процент(annual_percentage), сумма(ue)
+--Таблица №5 Кредиты процент(annual_percentage), сумма(ue)
 CREATE TABLE credit(
         id SERIAL PRIMARY KEY,
-	user_id INT,
-        products_id INT,
+	user_id BIGINT UNSIGNED,
+        products_id BIGINT UNSIGNED,
 	ue INT,
 	annual_percentage INT,
 	date_of_creation DATE,
 	date_of_end DATE,
-	INDEX (id));
+	FOREIGN KEY (user_id) REFERENCES users(id),
+        FOREIGN KEY (products_id) REFERENCES products(id));
 
 INSERT INTO credit VALUES
 	(0, 1, 8, 100000, 5, '2015-04-04', '2017-04-04'),
@@ -132,15 +130,15 @@ INSERT INTO credit VALUES
 	(0, 5, 8, 100000, 5, '2015-04-04', '2017-04-04');
 
 
---Таблица №6
-DROP TABLE IF EXISTS insurance;                 --Страхование
+--Таблица №6 Страхование
 CREATE TABLE insurance(
         id SERIAL PRIMARY KEY,
-	user_id INT,
-        products_id INT,
+	user_id BIGINT UNSIGNED,
+        products_id BIGINT UNSIGNED,
 	ue INT,
         date_of_creation DATE,
-	INDEX (id));
+        FOREIGN KEY (user_id) REFERENCES users(id),
+        FOREIGN KEY (products_id) REFERENCES products(id));
 
 INSERT INTO insurance VALUES
 	(0, 4, 10, 5000, '2015-04-04'),
@@ -150,14 +148,14 @@ INSERT INTO insurance VALUES
 	(0, 5, 11, 5000, '2015-04-04');
 
 
---Таблица №7
-DROP TABLE IF EXISTS discounts_next_manf;	--Планируемые скидки
+--Таблица №7 Планируемые скидки
 CREATE TABLE discounts_next_manf(
 	id SERIAL PRIMARY KEY,
-       	products_id INT,
+       	products_id BIGINT UNSIGNED,
 	discount INT,
 	date_start DATE,
-	date_stop DATE);
+	date_stop DATE,
+	FOREIGN KEY (products_id) REFERENCES products(id));
 
 INSERT INTO discounts_next_manf VALUES
 	(0, 6, 5, '2015-04-04', '2015-06-04'),
@@ -167,14 +165,14 @@ INSERT INTO discounts_next_manf VALUES
 	(0, 10, 5, '2015-04-04', '2015-06-04');
 
 
---Таблица №8
-DROP TABLE IF EXISTS discounts_now;		--Скидки 
+--Таблица №8 Скидки 
 CREATE TABLE discounts_now( 
 	id SERIAL PRIMARY KEY,
-       	products_id INT,	
+       	products_id BIGINT UNSIGNED,
 	discount INT,
         date_start DATE, 
-	date_stop DATE);
+	date_stop DATE,
+	FOREIGN KEY (products_id) REFERENCES products(id));
 
 INSERT INTO discounts_now VALUES
 	(0, 6, 5, '2015-04-04', '2015-06-04'),
@@ -184,15 +182,14 @@ INSERT INTO discounts_now VALUES
 	(0, 6, 5, '2015-04-04', '2015-06-04');
 
 
---Таблица №9
-DROP TABLE IF EXISTS call_agent;               --Колл центр
-CREATE TABLE call_center(
+--Таблица №9 Колл центр
+CREATE TABLE call_agent(
 	id SERIAL PRIMARY KEY,
         firsname VARCHAR(100),
         lastname VARCHAR(100),
         telephon VARCHAR(100));
 
-INSERT INTO call_center VALUES
+INSERT INTO call_agent VALUES
         (0, 'Alex_1', 'Black', '89996660000'),
         (0, 'Alex_2', 'Black', '89996660000'),
         (0, 'Alex_3', 'Black', '89996660000'),
@@ -200,15 +197,15 @@ INSERT INTO call_center VALUES
         (0, 'Alex_5', 'Black', '89996660000');
 
 
---Таблица №10
-DROP TABLE IF EXISTS tech_support;              --Тех поддержка
+--Таблица №10 Тех поддержка
 CREATE TABLE tech_support(
 	id SERIAL PRIMARY KEY,
-        user_id INT,
-	call_agent_id INT,
+        user_id BIGINT UNSIGNED,
+	call_agent_id BIGINT UNSIGNED,
 	question_user TEXT,
 	enswer_agent TEXT,
-	INDEX (id));
+	FOREIGN KEY (user_id) REFERENCES users(id),
+        FOREIGN KEY (call_agent_id) REFERENCES call_agent(id));
 
 INSERT INTO tech_support VALUES
         (0, 1, 2, 'error = 2342423', 'text support'),
@@ -219,7 +216,6 @@ INSERT INTO tech_support VALUES
 
 
 --Представление №1, JOIN
-DROP VIEW IF EXISTS client_get_products;
 CREATE VIEW client_get_products AS SELECT
         users.id AS id,
         investments.products_id AS invest_prod,
