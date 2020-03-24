@@ -23,8 +23,8 @@
 		данные продуктов банка,
 		данные по отдельным сигментам банка(кредиты, инвестиции, ...),
 		данные по текущим и планируемым скидкам,
-                данные по всем операцыям банка,
-		рекомендации продукта клиентам(на основе из запросов и оперций)
+                данные по сотрудникам колл центра и запросам клиентов,
+		рекомендации продукта клиентам
 
 	Задачи БД:
 		1. Хранение и сбор информации о клиентах.
@@ -232,7 +232,6 @@ ORDER BY id, invest_prod;
 SELECT * FROM client_get_products;
 
 --Представление №2, групперовка
-DROP VIEW IF EXISTS count_client_get_products;
 CREATE VIEW count_client_get_products AS SELECT
         id,
         count(invest_prod) AS invest_prod,                                                       
@@ -247,7 +246,6 @@ SELECT * FROM count_client_get_products;
 --Процедура, вложенные таблицы
 DELIMITER //
 
-DROP PROCEDURE IF EXISTS mvp;
 CREATE PROCEDURE mvp (value INT)
 BEGIN
         IF value > (SELECT MAX(id) FROM users) THEN
