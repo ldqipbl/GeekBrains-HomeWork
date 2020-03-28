@@ -79,11 +79,12 @@ INSERT INTO products VALUES
 CREATE TABLE investments(
         id SERIAL PRIMARY KEY,
 	user_id BIGINT UNSIGNED,
-	products_id BIGINT UNSIGNED,
+	product_id BIGINT UNSIGNED,
 	ue INT,
 	date_of_creation DATE,
 	FOREIGN KEY (user_id) REFERENCES users(id),
-        FOREIGN KEY (products_id) REFERENCES products(id));
+        FOREIGN KEY (product_id) REFERENCES products(id),
+	INDEX (user_id));
 
 INSERT INTO investments VALUES
 	(0, 1, 3, 5000, '2000-05-24'),
@@ -93,16 +94,17 @@ INSERT INTO investments VALUES
 
 
 --Таблица №4 Карты(дебетовый, кредитные)
-CREATE TABLE card(
+CREATE TABLE cards(
         id SERIAL PRIMARY KEY,
         user_id BIGINT UNSIGNED,
-        products_id BIGINT UNSIGNED,
+        product_id BIGINT UNSIGNED,
 	ue INT,
         date_of_creation DATE,
 	FOREIGN KEY (user_id) REFERENCES users(id),
-	FOREIGN KEY (products_id) REFERENCES products(id));
+	FOREIGN KEY (product_id) REFERENCES products(id),
+	INDEX (user_id));
 
-INSERT INTO card VALUES
+INSERT INTO cards VALUES
 	(0, 2, 6, 20000, '2000-01-21'),
 	(0, 2, 7, 100000, '2000-01-21'),
 	(0, 3, 7, 100000, '2010-03-23'),
@@ -111,18 +113,19 @@ INSERT INTO card VALUES
 
 
 --Таблица №5 Кредиты процент(annual_percentage), сумма(ue)
-CREATE TABLE credit(
+CREATE TABLE credits(
         id SERIAL PRIMARY KEY,
 	user_id BIGINT UNSIGNED,
-        products_id BIGINT UNSIGNED,
+        product_id BIGINT UNSIGNED,
 	ue INT,
 	annual_percentage INT,
 	date_of_creation DATE,
 	date_of_end DATE,
 	FOREIGN KEY (user_id) REFERENCES users(id),
-        FOREIGN KEY (products_id) REFERENCES products(id));
+        FOREIGN KEY (product_id) REFERENCES products(id),
+        INDEX (user_id));
 
-INSERT INTO credit VALUES
+INSERT INTO credits VALUES
 	(0, 1, 8, 100000, 5, '2015-04-04', '2017-04-04'),
 	(0, 1, 9, 100000, 8, '2017-04-04', '2019-04-04'),
 	(0, 2, 9, 100000, 8, '2015-04-04', '2017-04-04'),
@@ -131,16 +134,17 @@ INSERT INTO credit VALUES
 
 
 --Таблица №6 Страхование
-CREATE TABLE insurance(
+CREATE TABLE insurances(
         id SERIAL PRIMARY KEY,
 	user_id BIGINT UNSIGNED,
-        products_id BIGINT UNSIGNED,
+        product_id BIGINT UNSIGNED,
 	ue INT,
         date_of_creation DATE,
         FOREIGN KEY (user_id) REFERENCES users(id),
-        FOREIGN KEY (products_id) REFERENCES products(id));
+        FOREIGN KEY (product_id) REFERENCES products(id),
+        INDEX (user_id));
 
-INSERT INTO insurance VALUES
+INSERT INTO insurances VALUES
 	(0, 4, 10, 5000, '2015-04-04'),
 	(0, 4, 11, 5000, '2015-04-04'),
 	(0, 5, 10, 5000, '2015-04-04'),
@@ -151,11 +155,11 @@ INSERT INTO insurance VALUES
 --Таблица №7 Планируемые скидки
 CREATE TABLE discounts_next_manf(
 	id SERIAL PRIMARY KEY,
-       	products_id BIGINT UNSIGNED,
+       	product_id BIGINT UNSIGNED,
 	discount INT,
 	date_start DATE,
 	date_stop DATE,
-	FOREIGN KEY (products_id) REFERENCES products(id));
+	FOREIGN KEY (product_id) REFERENCES products(id));
 
 INSERT INTO discounts_next_manf VALUES
 	(0, 6, 5, '2015-04-04', '2015-06-04'),
@@ -168,11 +172,11 @@ INSERT INTO discounts_next_manf VALUES
 --Таблица №8 Скидки 
 CREATE TABLE discounts_now( 
 	id SERIAL PRIMARY KEY,
-       	products_id BIGINT UNSIGNED,
+       	product_id BIGINT UNSIGNED,
 	discount INT,
         date_start DATE, 
 	date_stop DATE,
-	FOREIGN KEY (products_id) REFERENCES products(id));
+	FOREIGN KEY (product_id) REFERENCES products(id));
 
 INSERT INTO discounts_now VALUES
 	(0, 6, 5, '2015-04-04', '2015-06-04'),
@@ -218,15 +222,15 @@ INSERT INTO tech_support VALUES
 --Представление №1, JOIN
 CREATE VIEW client_get_products AS SELECT
         users.id AS id,
-        investments.products_id AS invest_prod,
-        card.products_id AS card_prod,
-        credit.products_id AS credit_prod,
-        insurance.products_id AS insurance_prod
+        investments.product_id AS invest_prod,
+        cards.product_id AS card_prod,
+        credits.product_id AS credit_prod,
+        insurances.product_id AS insurance_prod
 FROM users       
 LEFT JOIN investments ON investments.user_id = users.id
-LEFT JOIN card ON card.user_id = users.id
-LEFT JOIN credit ON credit.user_id = users.id
-LEFT JOIN insurance ON insurance.user_id = users.id
+LEFT JOIN cards ON cards.user_id = users.id
+LEFT JOIN credits ON credits.user_id = users.id
+LEFT JOIN insurances ON insurances.user_id = users.id
 ORDER BY id, invest_prod;
 
 SELECT * FROM client_get_products;
@@ -243,7 +247,7 @@ FROM client_get_products GROUP BY id ORDER BY id;
 SELECT * FROM count_client_get_products;
 
 
---Процедура, вложенные таблицы
+--Процедура, вложенные таблицы, транзакции(debit carts)
 DELIMITER //
 
 CREATE PROCEDURE mvp (value INT)
@@ -276,6 +280,55 @@ BEGIN
                 SELECT value AS users, "insurance = 0" AS recomend;
         END IF;
 
+END //
+
+
+--transaction debit card (tdc)
+CREATE PROCEDURE tdc (user_id_1 INT, summa INT, user_id_2 INT)
+BEGIN
+        START TRANSACTION;
+
+        IF user_id_1 > (SELECT MAX(id) FROM users) or user_id_2 > (SELECT MAX(id) FROM users) THEN
+                SELECT "ERROR user_id not found";
+        ELSEIF user_id_1 NOT IN (SELECT user_id FROM cards WHERE product_id = 6) or user_id_2 NOT IN (SELECT user_id FROM cards WHERE product_id = 6) THEN
+                SELECT "ERROR user cadrs not found";
+	ELSE
+		UPDATE cards SET ue = ue - summa WHERE user_id = user_id_1 AND product_id = 6;
+	        UPDATE cards SET ue = ue + summa WHERE user_id = user_id_2 AND product_id = 6;
+
+        END IF;
+                
+        COMMIT;
+
+END //
+
+
+--тригеры
+CREATE TRIGGER update_date_use_cards AFTER INSERT ON cards
+FOR EACH ROW
+BEGIN
+        UPDATE users SET update_date = NOW() WHERE NEW.user_id = id;
+
+END //
+
+CREATE TRIGGER update_date_use_investments AFTER INSERT ON investments
+FOR EACH ROW
+BEGIN
+        UPDATE users SET update_date = NOW() WHERE NEW.user_id = id;
+
+END //
+
+CREATE TRIGGER update_date_use_credits AFTER INSERT ON credits
+FOR EACH ROW
+BEGIN
+        UPDATE users SET update_date = NOW() WHERE NEW.user_id = id;
+
+END //
+
+CREATE TRIGGER update_date_use_insurances AFTER INSERT ON insurances
+FOR EACH ROW
+BEGIN
+        UPDATE users SET update_date = NOW() WHERE NEW.user_id = id;
 END //
 
 DELIMITER ;
