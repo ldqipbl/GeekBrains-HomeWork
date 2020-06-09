@@ -1,0 +1,119 @@
+.home header {
+	margin-top: 0px;
+}
+
+aside ul {
+	border-bottom: 1px solid #000;
+}
+
+aside li {
+	color: #8c8c8c;
+}
+
+aside li:hover {
+	color: #000;
+	border-bottom: 3px solid #000;
+}
+
+
+/* our_gallery */
+
+.our_gallery .button {
+	width: 208px;
+	height: 18px;
+	border: 1.0px solid #000000;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin: 80px auto 0 auto;
+}
+
+
+/* discount */
+
+.discount {
+	margin-top: 80px;
+}
+
+.discount .first,
+.discount .last {
+        width: 50%;
+        height: 393px;
+	float: left;
+	text-align: left;
+}
+
+.discount .wrap {
+	width: 411px;
+	padding: 45px 0px;
+}
+
+.discount .first {
+	background: url(../img/discount_bg_1.jpg) no-repeat;
+	background-size: 100%;
+}
+
+.discount .last {
+        background: url(../img/discount_bg_2.jpg) no-repeat;
+	background-size: 100%;
+}
+
+.discount .discount_h {
+	font-family: Poppins;
+	font-size: 18px;
+	line-height: 36px;
+	font-weight: 500;
+	text-transform: uppercase;
+	color: #010101;
+	margin: 15px 0px;
+}
+
+.discount .discount_name {
+	font-family: MyriadPro;
+	font-size: 36px;
+	line-height: 36px;
+	font-weight: 400;
+	color: #f44336;
+	margin: 15px 0px 25px 0px;
+}
+
+.discount .discount_price {
+	font-family: Poppins;
+	font-size: 62px;
+	line-height: 48px;
+	font-weight: 300;
+	color: #000000;
+	margin: 20px 0px;
+}
+
+.discount .discount_price span {
+	font-size: 36px;
+	color: #8c8c8c;
+}
+
+.discount .discount_price span span{
+        text-decoration: line-through;
+}
+
+.discount a div {
+	width: 265px;
+	height: 62px;
+	background-color: #f44336;
+	border: 1.0px solid #000000;
+	font-family: Poppins;
+	font-size: 30px;
+	line-height: 24px;
+	font-weight: 500;
+	letter-spacing: 0.01em;
+	color: #ffffff;
+}
+
+.discount a p {
+	margin: 20px 100px;
+}
+
+
+/* footer */
+
+footer span {
+	color: #f44336;
+}

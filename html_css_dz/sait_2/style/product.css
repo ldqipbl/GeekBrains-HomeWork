@@ -1,0 +1,151 @@
+/* product */
+
+.product .div_img,
+.product .div_content {
+	width: 50%;
+	float: left;
+}
+
+.product .div_content div,
+.product .div_content p {
+	width: 470px;
+}
+
+.product .div_img .product_big_img {
+	background-image: url(../img/product_img_1.jpg);
+	width: 470px;
+	height: 258px;
+	margin: auto;
+}
+
+.product .div_img ul {
+	list-style: none;
+	padding: 0px;
+}
+
+.product .div_img li {
+	display: inline-block;
+	margin: 0px 8px;
+}
+
+.product .div_img li img {
+	width: 86px;
+	height: 63px;
+	margin: 23px 0px;
+}
+
+.product .div_img li img:hover {
+	box-shadow: -3px 5px 12px 0px rgba(0,0,0,0.6);
+	width: 141px;
+	height: 109px;
+	margin: 0px;
+}
+
+
+.product .name_game {
+	font-family: Poppins;
+	font-size: 36px;
+	line-height: 36px;
+	font-weight: 500;
+	color: #000000;
+}
+
+.product .name_game span {
+	color: #f44336;
+}
+
+.product .price {
+	margin: 15px 0px;
+	font-family: Poppins;
+	font-size: 62px;
+	line-height: 48px;
+	font-weight: 300;
+	color: #000000;
+}
+
+.product .button {
+	width: 470px;
+	height: 32px;
+	padding: 15px 0px;
+	background-color: #f44336;
+	font-family: Poppins;
+	font-size: 30px;
+	line-height: 24px;
+	font-weight: 500;
+	letter-spacing: 0.01em;
+	color: #ffffff;
+}
+
+.product .brief_description {
+	text-align: left;
+	font-family: RobotoCondensed;
+	font-size: 12px;
+	line-height: 24px;
+	font-weight: 300;
+	letter-spacing: 0.01em;
+	color: #999999;
+}
+
+
+/* similar_game */
+
+.similar_game_bg {
+	height: 684px;
+	opacity: 0.07;
+	background-color: #000000;
+	position: relative;
+	margin-top: 80px;
+	z-index: -1;
+}
+
+.similar_game {
+	margin-top: -684px;
+	height: 654px;
+	padding-top: 0px;
+}
+
+.similar_game .conteiner {
+	margin: 0px 70px;
+}
+
+.similar_game .h {
+	margin-bottom: 80px;
+}
+
+.similar_game .conteiner_div {
+	float: left;
+	margin: 0px 12px;
+}
+
+.similar_game .conteiner_div img {
+	height: 380px;
+	border: 1.0px solid #acacac;
+}
+
+.similar_game .conteiner_div p {
+	font-family: Poppins;
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: 500;
+	letter-spacing: 0.01em;
+	color: #000000;
+	height: 32px;
+}
+
+.similar_game .conteiner_div .button {
+	padding: 5px 0px;
+	width: 130px;
+	height: 20px;
+	background-color: #f44336;
+	margin: auto;
+	font-family: Poppins;
+	font-size: 14.1px;
+	line-height: 24px;
+	font-weight: 500;
+	letter-spacing: 0.01em;
+	color: #ffffff;
+}
+
+
+
+

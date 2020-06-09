@@ -1,0 +1,171 @@
+.wrapper {
+	background-color: #f8f8f8;
+	width: 900px;
+	margin: 0px auto;
+}
+
+
+/* header */
+
+header {
+	height: 125px;
+}
+
+header .logo img {
+	width: 100px;
+	height: 100px;
+}
+
+.logo {
+	margin: 20px 0 0 20px;
+	float: left;
+}
+
+header aside li {
+	list-style: none;
+	display: inline-block;
+	height: 25px;
+        margin-top: 100px;
+}
+
+header aside ul {
+	text-align: right;
+}
+
+header aside a {
+	color: grey;
+	font-style: italic;
+	font-size: 18px;
+}
+
+header aside a:hover {
+	color: red;
+}
+
+
+/* books */
+
+.books {
+	color: black;
+	background-color: #eaeaea;
+	font-weight: 400;
+	font-size: 18px;
+}
+
+.books_img {
+	display: inline-block;
+        float: left;
+	margin-right: 10px;
+}
+
+.books_img img{
+	border-width: 2px;
+	border-style: solid;
+	border-color: black;
+}
+
+.books_img img:hover{
+	border-color: #eaeaea;
+}
+
+.float_end {
+	clear: both;
+}
+
+.specifications {
+	color: #625959;
+        font-size: 12px;
+	line-height: 14px;
+}
+
+.BriefDescription {
+	color: #707070;
+	font-size: 14px;
+       	font-style: italic;
+	line-height: 16px;
+}
+
+.specifications table td{
+	border-width: 1px;
+	border-style: solid;
+	padding: 4px;
+}
+
+.description {
+        color: #484343;
+        font-size: 16px; 
+        text-align: left;
+        line-height: 24px;
+	font-weight: 400;
+}
+
+.content_books p:first-letter {
+	color: red;
+	font-family: Georgia, cursive;
+	font-size: 30px;
+}
+
+.content_books button {
+	margin: 10px 0 0 10px;
+	background-color: black;
+	color: white;
+}
+
+.content_books button:hover {
+	background-color: white;
+        color: black;
+}
+
+
+/* contacts */
+
+img[alt="katalogImg"] {
+	height: 200px;
+	width: 150px;
+}
+
+input[type="text"] {
+	height: 32px;
+        width: 197px;
+}
+
+.textarea {
+	height: 100px;
+        width: 300px;
+}
+
+.formElement input[type="text"],
+.formElement .textarea {
+    color: #820303;
+    font-size: 14px;
+    text-align: left;
+    background-color: burlywood;
+    text-transform: capitalize;
+}
+
+
+/* index */
+
+.index_table,
+.index_table td {
+	border-width: 2px;
+	border-style: solid;
+}
+
+
+/* footer */
+
+footer {
+	margin-top: 10px;
+	border-top: 2px solid black;
+	height: 40px;
+	background-color: #666;
+	text-align: right;
+}
+
+footer p {
+	margin: 10px 10px 0 0;
+}
+
+
+

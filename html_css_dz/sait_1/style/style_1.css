@@ -1,0 +1,79 @@
+/* Меню шапки */
+.wrapper {
+	background-color: #f8f8f8;
+}
+
+header .logo img{
+	width: 100px;
+	height: 100px;
+}
+
+header aside li {
+	list-style: none;
+	text-align: right;
+}
+
+header aside a {
+	color: grey;
+	font-style: italic;
+	font-size: 18px;
+}
+
+header aside a:hover {
+	color: red;
+}
+
+/* books */
+
+.books {
+	color: black;
+	background-color: #eaeaea;
+	font-weight: 400;
+	font-size: 18px;
+}
+
+.specifications {
+	list-style-type: hiragana;
+	color: #625959;
+        font-size: 12px;
+	line-height: 14px;
+}
+
+.BriefDescription {
+	color: #707070;
+	font-size: 14px;
+       	font-style:italic;
+	line-height: 16px;
+
+}
+
+.description {
+        color: #484343;
+        font-size: 16px; 
+        text-align: left;
+        line-height: 24px;
+	font-weight: 400;
+}
+
+/* contacts */
+img[alt="katalogImg"] {
+	height: 200px;
+	width: 150px;
+}
+
+input[type="text"] {
+	height: 32px;
+        width: 197px;
+	background-color; red;
+}
+
+.textarea {
+	height: 100px;
+        width: 300px;
+}
+
+.formElement input, .textarea {
+    color: #820303;
+    font-size: 14px;
+    text-align: left;
+}
