@@ -1,0 +1,49 @@
+.wrap {
+	width: 80%;
+	margin: 0px auto;
+}
+
+div {
+	border: 1px solid black;
+	text-align: center;
+	vertical-align: top;
+}
+
+img {
+	width: 100%;
+        height: 100%;
+}
+
+.slider, .product, .buy {
+	margin: 10px;
+}
+
+
+.slider .smoll_img div {
+	width: 200px;
+	height: 150px;
+	display: none;
+	margin: 0px 25px;
+}
+
+.left, .right {
+	width: 20px;
+        height: 20px;
+	display: inline-block;
+}
+
+
+.product div {
+	width: 49%;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.product .big_img div {
+	width: 100%;
+        height: 350px;	
+}
+
+.buy {
+	height: 100px;
+}
