@@ -1,0 +1,2 @@
+name = djando
+pass = geekbrains
