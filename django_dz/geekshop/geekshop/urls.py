@@ -24,14 +24,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', views.main, name='main'),
-
     path('products/', include('mainapp.urls', namespace='products')),
-    #path('products/all/', views.products_all, name='products_all'),
-    #path('products/home/', views.products_home, name='products_home'),
-    #path('products/office/', views.products_office, name='products_office'),
-    #path('products/modern/', views.products_modern, name='products_modern'),
-    #path('products/classic/', views.products_classic, name='products_classic'),
-
+    path('auth/', include('authapp.urls', namespace='auth')),
+    path('basket/', include('basketapp.urls', namespace='basket')),
     path('contacts/', views.contacts, name='contacts'),
 ]
 
