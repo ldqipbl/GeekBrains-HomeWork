@@ -1,13 +1,12 @@
-from django.conf.urls.static import static
-from django.contrib import admin
 from django.urls import path
-from mainapp import views
-from geekshop import settings
+import mainapp.views as mainapp
 
 
 app_name = 'mainapp'
 
 urlpatterns = [
-    path('', views.products, name='index'),
-    path('<int:pk>', views.products, name='products'),
+    path('', mainapp.products, name='index'),
+    path('category/<int:pk>/', mainapp.products, name='category'),
+    path('category/<int:pk>/<int:page>', mainapp.products, name='page'),
+    path('product/<int:pk>/', mainapp.product, name='product'),
 ]
