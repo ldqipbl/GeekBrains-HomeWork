@@ -86,7 +86,6 @@ def send_verify_mail(user):
         fail_silently=False,
     )
 
-
 def verify(request, email, activation_key):
     try:
         user = ShopUser.objects.get(email=email)
@@ -94,7 +93,7 @@ def verify(request, email, activation_key):
             print(f"user {user} is activated")
             user.is_active = True
             user.save()
-            auth.login(request, user)
+            auth.login(request, user, backend="django.contrib.auth.backends.ModelBackend")
 
             return render(request, "authnapp/verification.html")
         print(f"error activation user: {user}")
