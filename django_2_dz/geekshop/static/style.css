@@ -640,6 +640,7 @@ body {
 
 .container {
     width: 1366px;
+    max-width: 1366px;
     margin: 0 auto;
     min-height: 100%;
 }
@@ -707,7 +708,7 @@ body {
     position: absolute;
     top: 63px;
     /*left: 1176px;*/
-    left: 1146px;
+    left: 916px;
 }
 
 .basket {
@@ -718,7 +719,7 @@ body {
     position: absolute;
     top: 63px;
     /*left: 1210px;*/
-    left: 1180px;
+    left: 950px;
     text-decoration: none;
     color: #555;
 }
