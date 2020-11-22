@@ -50,7 +50,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    # "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -200,18 +200,18 @@ SOCIAL_AUTH_URL_NAMESPACE = "social"
 # SOCIAL_AUTH_VK_OAUTH2_SECRET = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 
 # Load settings from file for Vk
-#with open(".secrets/vk.json", "r") as f:
+# with open(".secrets/vk.json", "r") as f:
 #    VK = json.load(f)
 
 #SOCIAL_AUTH_VK_OAUTH2_KEY = VK["SOCIAL_AUTH_VK_OAUTH2_APPID"]
 #SOCIAL_AUTH_VK_OAUTH2_SECRET = VK["SOCIAL_AUTH_VK_OAUTH2_KEY"]
 
 # Load settings from file for GitHub
-#with open(".secrets/github.json", "r") as f:
-#    github_secrets = json.load(f)
+# with open(".secrets/github.json", "r") as f:
+#     github_secrets = json.load(f)
 
-#SOCIAL_AUTH_GITHUB_KEY = github_secrets["SOCIAL_AUTH_GITHUB_KEY"]
-#SOCIAL_AUTH_GITHUB_SECRET = github_secrets["SOCIAL_AUTH_GITHUB_SECRET"]
+# SOCIAL_AUTH_GITHUB_KEY = github_secrets["SOCIAL_AUTH_GITHUB_KEY"]
+# SOCIAL_AUTH_GITHUB_SECRET = github_secrets["SOCIAL_AUTH_GITHUB_SECRET"]
 
 LOGIN_ERROR_URL = "/"
 
