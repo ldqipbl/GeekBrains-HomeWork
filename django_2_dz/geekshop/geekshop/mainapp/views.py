@@ -87,7 +87,7 @@ def product(request, pk):
     return render(request, "mainapp/product.html", content)
 
 
-# @cache_page(600)
+@cache_page(600)
 def contact(request):
     title = "о нас"
     visit_date = timezone.now()
