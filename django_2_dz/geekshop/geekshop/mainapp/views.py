@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
+from django.views.decorators.cache import cache_page
 
 from .models import Contact, Product, ProductCategory
 
@@ -86,6 +87,7 @@ def product(request, pk):
     return render(request, "mainapp/product.html", content)
 
 
+# @cache_page(600)
 def contact(request):
     title = "о нас"
     visit_date = timezone.now()
