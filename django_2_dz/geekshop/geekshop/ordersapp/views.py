@@ -34,7 +34,7 @@ class OrderItemsCreate(CreateView):
         if self.request.POST:
             formset = OrderFormSet(self.request.POST)
         else:
-            basket_items = Basket.get_items_cached(self.request.user)
+            basket_items = self.request.user.basket.select_related().order_by("product__category")
             if len(basket_items):
                 OrderFormSet = inlineformset_factory(Order, OrderItem, form=OrderItemForm, extra=len(basket_items))
                 formset = OrderFormSet()
@@ -130,20 +130,20 @@ def order_forming_complete(request, pk):
 @receiver(pre_save, sender=OrderItem)
 @receiver(pre_save, sender=Basket)
 def product_quantity_update_save(instance, sender, **kwargs):
-    # if instance.pk:
-    #     instance.product.quantity -= instance.quantity - sender.get_item(instance.pk).quantity
-    # else:
-    #     instance.product.quantity -= instance.quantity
-    # instance.product.save()
-    quantity_total = instance.product.reserved + instance.product.quantity
-    quantity_delta = quantity_total - instance.quantity
-    if quantity_delta < 0:
-        instance.product.reserved = quantity_total
-        instance.quantity = instance.product.reserved
+    if instance.pk:
+        instance.product.quantity -= instance.quantity - sender.get_item(instance.pk).quantity
     else:
-        instance.product.reserved = instance.quantity
-        instance.product.quantity = quantity_delta
+        instance.product.quantity -= instance.quantity
     instance.product.save()
+    # quantity_total = instance.product.reserved + instance.product.quantity
+    # quantity_delta = quantity_total - instance.quantity
+    # if quantity_delta < 0:
+    #     instance.product.reserved = quantity_total
+    #     instance.quantity = instance.product.reserved
+    # else:
+    #     instance.product.reserved = instance.quantity
+    #     instance.product.quantity = quantity_delta
+    # instance.product.save()
 
 
 @receiver(pre_delete, sender=OrderItem)
