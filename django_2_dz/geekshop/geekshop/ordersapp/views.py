@@ -1,3 +1,4 @@
+from django.db.models import F
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.db.models.signals import pre_delete, pre_save
@@ -131,26 +132,16 @@ def order_forming_complete(request, pk):
 @receiver(pre_save, sender=Basket)
 def product_quantity_update_save(instance, sender, **kwargs):
     if instance.pk:
-        instance.product.quantity -= instance.quantity - sender.get_item(instance.pk).quantity
+        instance.product.quantity = F("quantity") - (instance.quantity - sender.get_item(instance.pk).quantity)
     else:
-        instance.product.quantity -= instance.quantity
+        instance.product.quantity = F("quantity") - instance.quantity
     instance.product.save()
-    # quantity_total = instance.product.reserved + instance.product.quantity
-    # quantity_delta = quantity_total - instance.quantity
-    # if quantity_delta < 0:
-    #     instance.product.reserved = quantity_total
-    #     instance.quantity = instance.product.reserved
-    # else:
-    #     instance.product.reserved = instance.quantity
-    #     instance.product.quantity = quantity_delta
-    # instance.product.save()
 
 
 @receiver(pre_delete, sender=OrderItem)
 @receiver(pre_delete, sender=Basket)
 def product_quantity_update_delete(instance, **kwargs):
-    instance.product.quantity += instance.product.reserved
-    instance.product.reserved = 0
+    instance.product.quantity = F("quantity") + instance.quantity
     instance.product.save()
 
 
